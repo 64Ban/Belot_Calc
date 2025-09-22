@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Open in Opera",
+      "program": "${workspaceFolder}/index.html",
+      "runtimeExecutable": "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Programs\\Opera\\opera.exe",
+      "runtimeArgs": ["--new-window", "file://${workspaceFolder}/index.html"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "chrome",
+      "request": "launch", 
+      "name": "Launch Opera (Chromium-based)",
+      "runtimeExecutable": "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Programs\\Opera\\opera.exe",
+      "url": "file://${workspaceFolder}/index.html",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
