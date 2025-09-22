@@ -57,9 +57,6 @@
               <label class="checkbox">
                 <input type="checkbox" id="beloteA" /> Belote (Q+K of trump)
               </label>
-              <label class="checkbox">
-                <input type="checkbox" id="capotA" /> Capot (all tricks)
-              </label>
             </div>
             <div>
               <h3><span class="team-name" data-team="B">Team B</span></h3>
@@ -72,20 +69,10 @@
               <label class="checkbox">
                 <input type="checkbox" id="beloteB" /> Belote (Q+K of trump)
               </label>
-              <label class="checkbox">
-                <input type="checkbox" id="capotB" /> Capot (all tricks)
-              </label>
             </div>
           </div>
 
-          <div class="row">
-            <label>Multiplier</label>
-            <select id="multiplier">
-              <option value="1">x1</option>
-              <option value="2">x2 (Double)</option>
-              <option value="4">x4 (Redouble)</option>
-            </select>
-          </div>
+
 
           <div class="row end">
             <button type="submit" class="primary">Add Round</button>
@@ -116,13 +103,6 @@
             <div class="settings-grid">
               <label>Belote points
                 <input type="number" id="optBelote" min="0" max="100" step="1" value="20" />
-              </label>
-              <label>Rounding
-                <select id="optRounding">
-                  <option value="none">None</option>
-                  <option value="nearest10">Nearest 10 (5 up)</option>
-                  <option value="floor10">Down to 10s</option>
-                </select>
               </label>
               <label>Capot bonus per round
                 <input type="number" id="optCapot" min="0" max="500" step="10" value="90" />

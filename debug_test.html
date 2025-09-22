@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Capot Calculation</title>
+</head>
+<body>
+    <h1>Debug Capot Calculation</h1>
+    <div id="result"></div>
+    
+    <script>
+        // Copy the exact computation function from the app
+        function computeRound({taker, trump, A, B}, opts) {
+            // Determine max score based on trump type
+            let maxScore;
+            if (trump === 'all') {
+                maxScore = 258;
+            } else if (trump === 'none') {
+                maxScore = 260;
+            } else {
+                maxScore = 162; // Basic suits
+            }
+            
+            // New logic: Only need one team's score, other gets remainder
+            const scoreA = (A.tricks|0);
+            const scoreB = scoreA > 0 ? maxScore - scoreA : (B.tricks|0);
+            
+            // Auto-detect capot: if a team has maximum score, they won all tricks
+            const capotA = scoreA === maxScore;
+            const capotB = scoreB === maxScore;
+            
+            console.log('Score A:', scoreA, 'Score B:', scoreB);
+            console.log('Capot A:', capotA, 'Capot B:', capotB);
+            
+            if (capotA && capotB) throw new Error('Both teams cannot have maximum score');
+            
+            // Final scores after capot logic
+            const finalScoreA = capotA ? maxScore : scoreA;
+            const finalScoreB = capotB ? maxScore : (capotA ? 0 : scoreB);
+
+            const beloteA = A.belote ? Math.round(opts.belote / 10) : 0;
+            const beloteB = B.belote ? Math.round(opts.belote / 10) : 0;
+
+            console.log('Belote A:', beloteA, 'Belote B:', beloteB);
+
+            // Convert scores to points: score ÷ 10 (rounded)
+            let pointsA = Math.round(finalScoreA / 10);
+            let pointsB = Math.round(finalScoreB / 10);
+            
+            console.log('Points A:', pointsA, 'Points B:', pointsB);
+            
+            // Add announcements and belote
+            const baseA = pointsA + (A.announce|0) + beloteA;
+            const baseB = pointsB + (B.announce|0) + beloteB;
+
+            console.log('Base A (after announcements + belote):', baseA);
+            console.log('Base B (after announcements + belote):', baseB);
+
+            let finalA = baseA;
+            let finalB = baseB;
+            let notes = [];
+
+            // Auto-award capot bonus (convert raw bonus to points: ÷10)
+            const capotBonus = Math.round(opts.capot / 10);
+            console.log('Capot bonus:', capotBonus);
+            
+            if (capotA) { 
+                finalA += capotBonus; 
+                notes.push('Capot A'); 
+                console.log('Final A after capot bonus:', finalA);
+            }
+            if (capotB) { 
+                finalB += capotBonus; 
+                notes.push('Capot B'); 
+                console.log('Final B after capot bonus:', finalB);
+            }
+
+            return { A: finalA, B: finalB, notes: notes.join(', ') };
+        }
+
+        // Test All Trumps capot
+        const testData = {
+            taker: 'A',
+            trump: 'all',
+            A: { tricks: 258, announce: 0, belote: false },
+            B: { tricks: 0, announce: 0, belote: false }
+        };
+        
+        const opts = {
+            belote: 20,
+            capot: 90
+        };
+        
+        console.log('=== Testing All Trumps Capot ===');
+        console.log('Input:', testData);
+        const result = computeRound(testData, opts);
+        console.log('Result:', result);
+        
+        document.getElementById('result').innerHTML = `
+            <h2>All Trumps Capot Test</h2>
+            <p>Team A Score: ${result.A}</p>
+            <p>Team B Score: ${result.B}</p>
+            <p>Notes: ${result.notes}</p>
+            <p>Expected: 35 points for Team A</p>
+            <p><strong>Check the console for detailed breakdown</strong></p>
+        `;
+    </script>
+</body>
+</html>
