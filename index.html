@@ -48,7 +48,7 @@
           <div class="grid-2 cols">
             <div>
               <h3><span class="team-name" data-team="A">Team A</span></h3>
-              <label>Score (value of won hands) (0-162)
+              <label>Score (value of won hands) <span id="scoreRangeA">(0-162)</span>
                 <input type="number" id="tricksA" min="0" max="162" step="1" />
               </label>
               <label>Announcements (sequences, squares)
@@ -63,7 +63,7 @@
             </div>
             <div>
               <h3><span class="team-name" data-team="B">Team B</span></h3>
-              <label>Score (value of won hands) (0-162)
+              <label>Score (value of won hands) <span id="scoreRangeB">(0-162)</span>
                 <input type="number" id="tricksB" min="0" max="162" step="1" />
               </label>
               <label>Announcements (sequences, squares)
@@ -93,7 +93,7 @@
             <button type="button" id="resetBtn" class="danger">Reset Game</button>
           </div>
 
-          <p class="hint">Note: Enter score for one team only. The other team gets remaining score automatically. Final points = team score ÷ 10 (rounded). Belote adds 20. Use Announcements for sequences/squares.</p>
+          <p class="hint">Note: Enter score for one team only. The other team gets remaining score automatically. Final points = team score ÷ 10 (rounded). Max scores: Basic suits 162 (16 pts), All Trumps 258 (26 pts), No Trump 260 (26 pts). Belote adds 20.</p>
         </form>
       </section>
 
