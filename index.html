@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Belot Score Calculator</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Belot Score Calculator</h1>
+      <div class="team-config">
+        <label>
+          Team A
+          <input id="teamAName" type="text" maxlength="20" placeholder="Team A" />
+        </label>
+        <label>
+          Team B
+          <input id="teamBName" type="text" maxlength="20" placeholder="Team B" />
+        </label>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel round-input">
+        <h2>New Round</h2>
+        <form id="roundForm">
+          <div class="row">
+            <label>Contract taker</label>
+            <div class="radio-group" id="contractTaker">
+              <label><input type="radio" name="taker" value="A" checked /> <span id="labelA">Team A</span></label>
+              <label><input type="radio" name="taker" value="B" /> <span id="labelB">Team B</span></label>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Trump suit</label>
+            <select id="trump">
+              <option value="hearts">Hearts ♥</option>
+              <option value="diamonds">Diamonds ♦</option>
+              <option value="clubs">Clubs ♣</option>
+              <option value="spades">Spades ♠</option>
+              <option value="none">No Trump</option>
+            </select>
+          </div>
+
+          <div class="grid-2 cols">
+            <div>
+              <h3><span class="team-name" data-team="A">Team A</span></h3>
+              <label>Trick points (0-162)
+                <input type="number" id="tricksA" min="0" max="162" step="1" required />
+              </label>
+              <label>Announcements (sequences, squares)
+                <input type="number" id="announceA" min="0" max="1000" step="1" value="0" />
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="beloteA" /> Belote (Q+K of trump)
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="capotA" /> Capot (all tricks)
+              </label>
+            </div>
+            <div>
+              <h3><span class="team-name" data-team="B">Team B</span></h3>
+              <label>Trick points (0-162)
+                <input type="number" id="tricksB" min="0" max="162" step="1" required />
+              </label>
+              <label>Announcements (sequences, squares)
+                <input type="number" id="announceB" min="0" max="1000" step="1" value="0" />
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="beloteB" /> Belote (Q+K of trump)
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" id="capotB" /> Capot (all tricks)
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Multiplier</label>
+            <select id="multiplier">
+              <option value="1">x1</option>
+              <option value="2">x2 (Double)</option>
+              <option value="4">x4 (Redouble)</option>
+            </select>
+          </div>
+
+          <div class="row end">
+            <button type="submit" class="primary">Add Round</button>
+            <button type="button" id="undoBtn" class="secondary">Undo</button>
+            <button type="button" id="resetBtn" class="danger">Reset Game</button>
+          </div>
+
+          <p class="hint">Note: Trick points must sum to 162. Belote adds 20. Use Announcements for sequences/squares. Rules are configurable in settings.</p>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Totals</h2>
+        <div class="totals">
+          <div class="total-box">
+            <div class="label team-name" data-team="A">Team A</div>
+            <div class="value" id="totalA">0</div>
+          </div>
+          <div class="total-box">
+            <div class="label team-name" data-team="B">Team B</div>
+            <div class="value" id="totalB">0</div>
+          </div>
+        </div>
+
+        <div class="settings">
+          <details>
+            <summary>Settings</summary>
+            <div class="settings-grid">
+              <label>Belote points
+                <input type="number" id="optBelote" min="0" max="100" step="1" value="20" />
+              </label>
+              <label>Rounding
+                <select id="optRounding">
+                  <option value="none">None</option>
+                  <option value="nearest10">Nearest 10 (5 up)</option>
+                  <option value="floor10">Down to 10s</option>
+                </select>
+              </label>
+              <label>Capot bonus per round
+                <input type="number" id="optCapot" min="0" max="500" step="10" value="90" />
+              </label>
+              <label>Fail taker gives all
+                <select id="optFail">
+                  <option value="bags">Opponent gets tricks only</option>
+                  <option value="all" selected>Opponent gets all (tricks + announcements + belote)</option>
+                </select>
+              </label>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="panel history">
+        <h2>History</h2>
+        <table id="historyTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Taker</th>
+              <th>Trump</th>
+              <th><span class="team-name" data-team="A">Team A</span></th>
+              <th><span class="team-name" data-team="B">Team B</span></th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>Local, offline calculator. Data saved in your browser. v0.1.0</small>
+    </footer>
+
+    <script src="src/app.js"></script>
+  </body>
+  </html>
